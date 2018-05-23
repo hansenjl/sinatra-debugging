@@ -5,7 +5,8 @@
 </head>
 <body>
   <h1>All Artists:</h1>
-  <% @artist.each_with_index do |artist,id| %>
+
+  <% @artists.each_with_index do |artist,id| %>
     <a href="/artists/<%=artist.slug%>"><%=id+1%>. <%=artist.name%></a><br>
   <% end %>
 </body>

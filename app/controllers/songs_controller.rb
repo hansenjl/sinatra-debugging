@@ -1,16 +1,18 @@
 require 'sinatra/base'
 require 'rack-flash'
-require 'pry'
+
 class SongsController < ApplicationController
   enable :sessions
   use Rack::Flash
 
   get "/songs" do
+    params["session"] = "hello"
     @songs = Song.all
     erb :'/songs/index'
   end
 
   post "/songs" do
+    puts params.inspect
     @song = Song.create(:name => params[:song_name])
     params[:genres].each do |id|
       @song.genres << Genre.find_by_id(id)
@@ -25,14 +27,15 @@ class SongsController < ApplicationController
     redirect to :"/songs/#{@song.slug}"
   end
 
+   get "/songs/new" do
+    erb :'songs/new'
+  end
+
+
 
   get "/songs/:slug" do
     @song = Song.find_by_slug(params[:slug])
     erb :'/songs/show'
-  end
-
-  get "/songs/new" do
-    erb :'songs/new'
   end
 
 
